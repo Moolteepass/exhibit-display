@@ -1,7 +1,12 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useRef, useEffect } from "react"
 
-const FilmCard = ({ film }) => {
-  const [showVideoIndex, setShowVideoIndex] = useState(null)
+const FilmCard = ({
+  film,
+  setShowVideoIndex,
+  showVideoIndex,
+  setSearch,
+  search,
+}) => {
   const videoRefs = useRef([])
 
   const toggleVideo = (index) => {
@@ -20,6 +25,8 @@ const FilmCard = ({ film }) => {
     if (document.exitFullscreen) {
       document.exitFullscreen()
     }
+    setSearch("")
+    console.log("Search is set to: ", search)
     setShowVideoIndex(null)
   }
 
@@ -57,6 +64,7 @@ const FilmCard = ({ film }) => {
               allow="autoplay; fullscreen"
               allowFullScreen
             ></iframe>
+            {<div className="iframe-overlay" onClick={closeFullscreen}></div>}
             <button onClick={closeFullscreen} className="close-button">
               Close
             </button>
