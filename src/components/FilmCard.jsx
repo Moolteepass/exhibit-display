@@ -58,7 +58,7 @@ const FilmCard = ({
             <iframe
               width="560"
               height="315"
-              src={`//www.youtube.com/embed/${film[showVideoIndex].url}?controls=0&showinfo=0&rel=0&disablekb=1&modestbranding=1&autoplay=1`}
+              src={`//www.youtube.com/embed/${film[showVideoIndex].url}?controls=0&showinfo=0&rel=0&disablekb=1&modestbranding=1&autoplay=1&vq=hd1080`}
               title="YouTube video player"
               frameBorder="0"
               allow="autoplay; fullscreen"

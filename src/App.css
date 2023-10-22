@@ -33,7 +33,7 @@ html {
 
 /* App styling */
 .App {
-  background-image: url("/img/bg.jpg");
+  background-image: url("../img/bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100vw;
@@ -92,6 +92,7 @@ html {
   width: 90vw;
   height: 88vh;
   position: relative;
+  border-radius: 10px;
 }
 
 .close-button {
