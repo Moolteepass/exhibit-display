@@ -33,7 +33,7 @@ html {
 
 /* App styling */
 .App {
-  background: url("./assets/img/bg.jpg");
+  background: url("./img/bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100vw;
