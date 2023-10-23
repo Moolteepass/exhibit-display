@@ -44,6 +44,11 @@ function App() {
     )
   })
 
+  const sortedAndFilteredFilms = [...filteredFilms].sort(
+    (a, b) => b.rating - a.rating
+  )
+  console.log(sortedAndFilteredFilms)
+
   return (
     <div className="App">
       {showVideoIndex === null && (
@@ -58,7 +63,7 @@ function App() {
         </div>
       )}
       <FilmCard
-        film={filteredFilms}
+        film={sortedAndFilteredFilms}
         setShowVideoIndex={setShowVideoIndex}
         showVideoIndex={showVideoIndex}
         setSearch={setSearch}
