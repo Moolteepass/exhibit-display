@@ -1,16 +1,46 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./App.css"
 import FilmCard from "./components/FilmCard"
-import films from "./assets/films.json"
 
 function App() {
   const [search, setSearch] = useState("")
+  const [data, setData] = useState([])
   const [showVideoIndex, setShowVideoIndex] = useState(null)
 
-  const filteredFilms = films.filter((film) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const baseID = "appYslkrm56eePp3o"
+        const tableName = "Film List"
+
+        const url = `https://api.airtable.com/v0/${baseID}/${tableName}`
+
+        fetch(url, {
+          headers: {
+            Authorization:
+              "Bearer patoVDA5JuT80vGzv.a6f6d776cd11fcc762c0d64e16e8f7a4471119ef4d6038d757bdcb437d8cbe0e",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            setData(data.records.map((record) => record.fields))
+            console.log(data.records.map((record) => record.fields))
+          })
+      } catch (error) {
+        console.error("Error fetching JSON:", error)
+      }
+    }
+    fetchData()
+  }, [])
+
+  const filteredFilms = data.filter((data) => {
     return (
-      film.title.toLowerCase().includes(search.toLowerCase()) ||
-      film.student.toLowerCase().includes(search.toLowerCase())
+      (data.title
+        ? data.title.toLowerCase().includes(search.toLowerCase())
+        : false) ||
+      (data.student
+        ? data.student.toLowerCase().includes(search.toLowerCase())
+        : false)
     )
   })
 

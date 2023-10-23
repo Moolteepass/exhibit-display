@@ -74,7 +74,7 @@ const FilmCard = ({
         film.map((film, index) => (
           <div key={index} onClick={() => toggleVideo(index)}>
             <div className="indFilm">
-              <img src={film.thumbnail} alt={film.title} />
+              <img src={film.thumbnail[0].url} alt={film.title} />
             </div>
           </div>
         ))
