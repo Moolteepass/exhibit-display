@@ -33,9 +33,36 @@ html {
 
 /* App styling */
 .App {
-  background-image: url("../img/bg.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-color: #000000;
+  opacity: 0.9;
+  background: radial-gradient(
+      circle,
+      transparent 20%,
+      #000000 20%,
+      #000000 80%,
+      transparent 80%,
+      transparent
+    ),
+    radial-gradient(
+        circle,
+        transparent 20%,
+        #000000 20%,
+        #000000 80%,
+        transparent 80%,
+        transparent
+      )
+      30px 30px,
+    linear-gradient(
+        #7c0a51 2.4000000000000004px,
+        transparent 2.4000000000000004px
+      )
+      0 -1.2000000000000002px,
+    linear-gradient(
+        90deg,
+        #7c0a51 2.4000000000000004px,
+        #000000 2.4000000000000004px
+      ) -1.2000000000000002px 0;
+  background-size: 60px 60px, 60px 60px, 30px 30px, 30px 30px;
   width: 100vw;
   min-height: 100vh;
 }

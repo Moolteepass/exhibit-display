@@ -69,7 +69,6 @@ function App() {
         setSearch={setSearch}
         search={search}
       />
-      <p className="press-close">Press "Close" to go back to the other films</p>
     </div>
   )
 }
