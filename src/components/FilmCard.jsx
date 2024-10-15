@@ -1,34 +1,23 @@
-import React, { useRef, useEffect } from "react"
+import { useRef, useEffect, useCallback } from "react"
+import PropTypes from "prop-types"
 
-const FilmCard = ({
-  film,
-  setShowVideoIndex,
-  showVideoIndex,
-  setSearch,
-  search,
-}) => {
-  const videoRefs = useRef([])
+const FilmCard = ({ films, setShowVideoIndex, showVideoIndex, setSearch }) => {
+  const videoRef = useRef(null)
 
-  const toggleVideo = (index) => {
-    if (showVideoIndex === index) {
-      setShowVideoIndex(null)
-    } else {
-      setShowVideoIndex(index)
-      const videoElement = videoRefs.current[index]
-      if (videoElement.requestFullscreen) {
-        videoElement.requestFullscreen()
-      }
-    }
-  }
+  const toggleVideo = useCallback(
+    (index) => {
+      setShowVideoIndex((prevIndex) => (prevIndex === index ? null : index))
+    },
+    [setShowVideoIndex]
+  )
 
-  const closeFullscreen = () => {
+  const closeFullscreen = useCallback(() => {
     if (document.exitFullscreen) {
       document.exitFullscreen()
     }
     setSearch("")
-    console.log("Search is set to: ", search)
     setShowVideoIndex(null)
-  }
+  }, [setSearch, setShowVideoIndex])
 
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -38,49 +27,51 @@ const FilmCard = ({
     }
 
     document.addEventListener("fullscreenchange", handleFullscreenChange)
-
-    return () => {
+    return () =>
       document.removeEventListener("fullscreenchange", handleFullscreenChange)
-    }
-  }, [showVideoIndex])
+  }, [showVideoIndex, setShowVideoIndex])
+
+  if (showVideoIndex !== null && films[showVideoIndex]) {
+    return (
+      <div className="modal">
+        <div className="video-container">
+          <iframe
+            ref={videoRef}
+            src={`//www.youtube.com/embed/${films[showVideoIndex].url}?controls=0&showinfo=0&rel=0&disablekb=1&modestbranding=1&autoplay=1&vq=hd1080`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="autoplay; fullscreen"
+            allowFullScreen
+          />
+          <div className="iframe-overlay" onClick={closeFullscreen} />
+        </div>
+        <button onClick={closeFullscreen} className="close-button">
+          Close
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div className="fullCard">
-      {showVideoIndex !== null ? (
+      {films.map((film, index) => (
         <div
-          onClick={() => toggleVideo(showVideoIndex)}
-          className="card-container"
+          key={film.id || index}
+          onClick={() => toggleVideo(index)}
+          className="indFilm"
         >
-          <div
-            ref={(el) => (videoRefs.current[showVideoIndex] = el)}
-            className="video-container"
-          >
-            <iframe
-              width="560"
-              height="315"
-              src={`//www.youtube.com/embed/${film[showVideoIndex].url}?controls=0&showinfo=0&rel=0&disablekb=1&modestbranding=1&autoplay=1&vq=hd1080`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="autoplay; fullscreen"
-              allowFullScreen
-            ></iframe>
-            {<div className="iframe-overlay" onClick={closeFullscreen}></div>}
-            <button onClick={closeFullscreen} className="close-button">
-              Close
-            </button>
-          </div>
+          <img src={film.thumbnail[0].url} alt={film.title} />
         </div>
-      ) : (
-        film.map((film, index) => (
-          <div key={index} onClick={() => toggleVideo(index)}>
-            <div className="indFilm">
-              <img src={film.thumbnail[0].url} alt={film.title} />
-            </div>
-          </div>
-        ))
-      )}
+      ))}
     </div>
   )
+}
+
+FilmCard.propTypes = {
+  films: PropTypes.array.isRequired,
+  setShowVideoIndex: PropTypes.func.isRequired,
+  showVideoIndex: PropTypes.number,
+  setSearch: PropTypes.func.isRequired,
 }
 
 export default FilmCard
